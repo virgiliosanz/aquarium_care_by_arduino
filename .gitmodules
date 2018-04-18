@@ -1,0 +1,3 @@
+[submodule "lib/GravityTDS"]
+	path = lib/GravityTDS
+	url = https://github.com/virgiliosanz/GravityTDS
