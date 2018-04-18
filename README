@@ -1,0 +1,20 @@
+  - Button:
+    - http://platformio.org/lib/show/1260/OneButton
+  - LiquidCrystal:
+    - http://platformio.org/lib/show/136/LiquidCrystal
+  - Temperatura
+    - http://platformio.org/lib/show/54/ds18b20
+  - PH
+  - Humedad Relativa
+    - http://platformio.org/lib/show/19/dht
+  - Presión Atmosferica
+    - http://platformio.org/lib/show/528/bmp280
+  - Callback
+    - http://platformio.org/lib/show/660/Callback
+  - Time
+    - http://platformio.org/lib/show/44/Time
+    - http://platformio.org/lib/show/68/TimeAlarms
+    - http://platformio.org/lib/show/421/DS1307RTC
+  - json:
+    - https://github.com/bblanchon/ArduinoJson
+  -
