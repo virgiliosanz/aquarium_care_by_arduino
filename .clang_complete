@@ -1,77 +1,52 @@
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/cores/arduino
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/variants/mega
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Time_ID44
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/TimeAlarms_ID68
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/OneWire_ID1
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/OneButton_ID1260/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Adafruit Unified Sensor_ID31
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DHT sensor library_ID19
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Stepper/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DallasTemperature_ID54
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/EEPROM/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/LiquidCrystal_ID136
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DS1307RTC_ID421
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Adafruit BMP280 Library_ID528
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Adafruit BMP280 Library_ID528
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Adafruit Unified Sensor_ID31
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DHT sensor library_ID19
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Adafruit Unified Sensor_ID31
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DHT sensor library_ID19
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DS1307RTC_ID421
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Time_ID44
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DS1307RTC_ID421
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DallasTemperature_ID54
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/OneWire_ID1
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/DallasTemperature_ID54
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/LiquidCrystal_ID136
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/LiquidCrystal_ID136
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/OneButton_ID1260/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/OneButton_ID1260/src
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/OneWire_ID1
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/OneWire_ID1
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/TimeAlarms_ID68
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Time_ID44
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/TimeAlarms_ID68
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Time_ID44
--I/Users/vsanz/CloudStation/Dev/aquarium_care_by_arduino/.piolibdeps/Time_ID44
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/EEPROM/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/HID/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SoftwareSerial/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Adafruit_CircuitPlayground
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Adafruit_CircuitPlayground/utility
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Bridge/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Esplora/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Ethernet/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Firmata
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Firmata/utility
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/GSM/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Keyboard/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/LiquidCrystal/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Mouse/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/RobotIRremote/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Robot_Control/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Robot_Motor/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/SD/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Servo/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/SpacebrewYun/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Stepper/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/TFT/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/Temboo/src
--I/Users/vsanz/.platformio/packages/framework-arduinoavr/libraries/WiFi/src
--I/Users/vsanz/.platformio/packages/toolchain-atmelavr/avr/include
--I/Users/vsanz/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/4.9.2/include
--I/Users/vsanz/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/4.9.2/include-fixed
--I/Users/vsanz/.platformio/packages/tool-unity
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\cores\arduino
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\variants\mega
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\__cores__\arduino\Wire\src
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\LiquidCrystal_ID136
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\Adafruit Unified Sensor_ID31
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\__cores__\arduino\SPI\src
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\Adafruit BMP280 Library_ID528
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\DHT sensor library_ID19
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\OneWire_ID1
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\DallasTemperature_ID54
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\Time_ID44
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\TimeAlarms_ID68
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\DS1307RTC_ID421
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\OneButton_ID1260\src
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\.piolibdeps\AnalogPHMeter_ID1284
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Stepper\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\__cores__\arduino\EEPROM\src
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\lib\GravityTDS
+-IC:\Users\vsanz\CloudStation\Dev\aquarium_care_by_arduino\lib\ChainableLED
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\__cores__\arduino\HID\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\__cores__\arduino\SoftwareSerial\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Adafruit_CircuitPlayground
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Adafruit_CircuitPlayground\utility
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Bridge\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Esplora\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Ethernet\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Firmata
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Firmata\utility
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\GSM\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Keyboard\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\LiquidCrystal\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Mouse\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\RobotIRremote\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Robot_Control\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Robot_Motor\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\SD\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Servo\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\SpacebrewYun\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\TFT\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\Temboo\src
+-IC:\Users\vsanz\.platformio\packages\framework-arduinoavr\libraries\WiFi\src
+-IC:\Users\vsanz\.platformio\packages\toolchain-atmelavr\avr\include
+-IC:\Users\vsanz\.platformio\packages\toolchain-atmelavr\lib\gcc\avr\4.9.2\include
+-IC:\Users\vsanz\.platformio\packages\toolchain-atmelavr\lib\gcc\avr\4.9.2\include-fixed
+-IC:\Users\vsanz\.platformio\packages\tool-unity
 -DF_CPU=16000000L
--DPLATFORMIO=30500
--DARDUINO_ARCH_AVR
+-DPLATFORMIO=30503
 -DARDUINO_AVR_MEGA2560
--DARDUINO=10619
+-DARDUINO_ARCH_AVR
+-DARDUINO=10805
 -D__AVR_ATmega2560__

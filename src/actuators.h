@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include <Time.h>
+#include <ChainableLED.h>
 
 namespace actuators {
 
@@ -46,7 +47,6 @@ struct PhotoPeriod {
 
 struct LedStrip {
     PhotoPeriod periods[3];
-    uint8_t pin;
 };
 
 struct LedStripStatus {

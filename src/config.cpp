@@ -5,7 +5,7 @@
 namespace config
 {
 
-static const char version[] = "0.2.0";
+static const char version[] = "0.4.0";
 static const int version_addr = 0;
 
 // Struct to save & read from eeprom
