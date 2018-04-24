@@ -31,7 +31,6 @@ static SensorsData sensors_data{0};
 void setup()
 {
     p(F("Sensors::setup()"));
-
     sensors_data.bmp280t.sensor_ok =
         bmp280.begin(defaults::bmp280_conf.address);
     dht.begin();
