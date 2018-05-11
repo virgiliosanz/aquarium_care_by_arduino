@@ -52,8 +52,8 @@ const struct {
   byte btn_ok;
   byte btn_esc;
 
-} pines = {11, 10, 5,  4,  24, 26, 28, 30, 52,  40, 38,
-           36, 34, 50, 46, 48, A7, A9, A8, A11, A6, A10};
+} pines = {11, 10, 5,  4,  24, 26, 28, 30, 52,  38, 36,
+           34, 32, 50, 46, 48, A7, A9, A8, A11, A6, A10};
 
 using PeriodType = actuators::PhotoPeriod::Type;
 
