@@ -14,6 +14,7 @@
 
 namespace sensors {
 
+<<<<<<< HEAD
     static Adafruit_BMP280 bmp280;
     static DHT dht(defaults::dht_conf.pin, DHT11);
     static OneWire oneWire(defaults::ds18b20_conf.pin);
@@ -53,6 +54,34 @@ namespace sensors {
       tds.setAref(5.0); // reference voltage on ADC, default 5.0V on Arduino UNO
       tds.setAdcRange(1024); // 1024 for 10bit ADC;4096 for 12bit ADC
       tds.begin();           // initialization
+=======
+static Adafruit_BMP280 bmp280;
+static DHT dht(defaults::dht_conf.pin, DHT11);
+static OneWire oneWire(defaults::ds18b20_conf.pin);
+
+static DallasTemperature sensors(&oneWire);
+const uint8_t insideThermometer_id = 0;
+const uint8_t outsideThermometer_id = 1;
+static DeviceAddress insideThermometer, outsideThermometer;
+
+static AnalogPHMeter ph_meter(defaults::ph_conf.pin);
+static GravityTDS tds;
+
+static SensorsData sensors_data{0};
+
+void setup()
+{
+    p(F("Sensors::setup()"));
+    sensors_data.bmp280t.sensor_ok =
+        bmp280.begin(defaults::bmp280_conf.address);
+    dht.begin();
+    sensors.begin();
+
+    sensors_data.ds18b20.sensor_ok = true;
+    if (!sensors.getAddress(insideThermometer, insideThermometer_id)) {
+        p(F("Unable to find address for Device 0"));
+        sensors_data.ds18b20.sensor_ok = false;
+>>>>>>> 2aaf11fb91f56428114ab74e4c11f92df3ac6cb5
     }
 
     void loop()

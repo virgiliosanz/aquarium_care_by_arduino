@@ -45,7 +45,7 @@ class LedStripImpl
     LedStrip *led_;
 };
 
-static const unsigned long time_between_led_updates = 300000; // 5 minutos
+static const unsigned long time_between_led_updates = 60000; // 1 minutos
 static unsigned long last_led_update = 0;
 
 static ChainableLED uwf{defaults::pines.p9813_clock_pin_1,

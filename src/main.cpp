@@ -2,8 +2,8 @@
 
 #include <actuators.h>
 #include <config.h>
-#include <info.h>
 #include <defaults.h>
+#include <info.h>
 #include <interface.h>
 #include <sensors.h>
 
