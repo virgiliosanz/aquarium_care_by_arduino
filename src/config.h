@@ -15,23 +15,23 @@
 
 namespace config {
 
-extern float high_temperature_alarm;
-extern float low_temperature_alarm;
+    extern float high_temperature_alarm;
+    extern float low_temperature_alarm;
 
-extern actuators::LedStrip white;
-extern actuators::LedStrip red;
-extern actuators::LedStrip green;
-extern actuators::LedStrip blue;
-extern actuators::LedStrip uv;
+    extern actuators::LedStrip white;
+    extern actuators::LedStrip red;
+    extern actuators::LedStrip green;
+    extern actuators::LedStrip blue;
+    extern actuators::LedStrip uv;
 
-extern actuators::Feeding feeding;
+    extern actuators::Feeding feeding;
 
-extern struct PHCalibrationValue ph_calibration;
+    extern struct PHCalibrationValue ph_calibration;
 
-extern LCD* lcd;
+    extern LCD* lcd;
 
-void update_eeprom();
-bool load_from_eeprom();
+    void update_eeprom();
+    bool load_from_eeprom();
 
-void setup();
+    void setup();
 }

@@ -54,7 +54,7 @@ libDirs = [
 flags = [
     # General flags
      '-std=c++11'
-    ,'-O0'
+    ,'-O1'
     ,'-Werror'
     ,'-Weverything'
     ,'-Wno-documentation'
@@ -78,6 +78,7 @@ flags = [
     ,'-DARDUINO_ARCH_AVR'
     ,'-DARDUINO_AVR_DUEMILANOVE'
     ,'-DARDUINO=106000'
+    ,'-D__progmem__=used'
     # ,'-MMD -DUSB_VID=null'
     # ,'-DUSB_PID=null'
 ]
