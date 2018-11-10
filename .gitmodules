@@ -1,6 +1,3 @@
 [submodule "lib/GravityTDS"]
 	path = lib/GravityTDS
 	url = git@github.com:virgiliosanz/GravityTDS.git
-[submodule "lib/ChainableLED"]
-	path = lib/ChainableLED
-	url = git@github.com:virgiliosanz/ChainableLED.git

@@ -4,4 +4,4 @@
 unsigned freeRam();
 
 // http://playground.arduino.cc/Main/Printf
-void p(const __FlashStringHelper *fmt, ...);
+void p(const __FlashStringHelper* fmt, ...);
