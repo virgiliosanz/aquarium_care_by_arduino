@@ -10,6 +10,7 @@ upload:
 
 clean:
 	platformio -f -c vim run --target clean
+	rm -rf .pioenvs .piolibdeps
 
 program:
 	platformio -f -c vim run --target program

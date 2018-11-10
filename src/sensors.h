@@ -1,81 +1,33 @@
 #pragma once
+
 #include <Arduino.h>
-#include <AnalogPHMeter.h>
+
 namespace sensors {
 
-    struct SensorConf {
-    	uint8_t pin;
-    	unsigned long time_between_reads;
-    };
+// Sensor aggregated data
+struct SensorsData {
 
-    struct Bmp280Conf {
-    	int address;
-    	unsigned long time_between_reads;
-    	float altitude_at_your_locality;
-    };
+    struct {
+        bool sensor_ok;
+        unsigned long last_read; // in millis
+        unsigned long time_between_reads;
 
-    struct TdsConf {
-    	uint8_t pin;
-    	unsigned long time_between_reads;
-    	float adc_ref;
-    	float adc_range;
-    };
+        float external;
+        float internal;
+    } ds18b20;
 
-    // Sensor aggregated data
-    struct SensorsData {
-    	struct {
-            bool sensor_ok;
-            unsigned long last_read; // in millis
+    struct {
+        bool sensor_ok;
+        unsigned long last_read; // in millis
+        unsigned long time_between_reads;
 
-            float pressure;
-            float temperature;
-            float altitude;
-    	} bmp280t;
+        word tds;
+    } tds;
+};
 
-    	struct {
-            bool sensor_ok;
-            unsigned long last_read; // in millis
+void setup();
+void loop();
 
-            float humidity;
-            float temperature;
-    	} dht11;
-
-    	struct {
-            bool sensor_ok;
-            unsigned long last_read; // in millis
-
-            float external;
-            float internal;
-    	} ds18b20;
-
-    	struct {
-            bool sensor_ok;
-            unsigned long last_read; // in millis
-
-            float ph;
-    	} ph;
-
-    	struct {
-            bool sensor_ok;
-            unsigned long last_read; // in millis
-
-            uint16_t tds;
-    	} tds;
-    };
-
-    void setup();
-    void loop();
-
-    SensorsData& get_sensors_data();
-
-    namespace PH {
-
-	void calibrate_ph4();
-	void calibrate_ph7();
-	void calibrate_ph10();
-
-	float get_ph();
-
-    } // namespace PH
+SensorsData& get_sensors_data();
 
 } // namespace sensors

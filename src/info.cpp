@@ -1,11 +1,12 @@
 #include <info.h>
+#include <Arduino.h>
 
 unsigned freeRam()
 {
     extern unsigned __heap_start, *__brkval;
     unsigned v;
     return (unsigned)&v -
-        (__brkval == 0 ? (unsigned)&__heap_start : (unsigned)__brkval);
+           (__brkval == 0 ? (unsigned)&__heap_start : (unsigned)__brkval);
 }
 
 // http://playground.arduino.cc/Main/Printf

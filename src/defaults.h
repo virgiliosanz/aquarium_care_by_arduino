@@ -1,95 +1,130 @@
 #pragma once
 
 #include <Arduino.h>
-#include <actuators.h>
-#include <config.h>
-#include <sensors.h>
 
 namespace defaults {
 
-    const unsigned long serial_baud = 115200;
+const unsigned long serial_baud = 115200;
+const byte n_phases = 8;
+const bool co2_automatic = true;
+const bool lights_automatic = true;
 
-    // Sensor Configuration
-    // Humidity
-    const sensors::SensorConf dht_conf{A1, 20000};
-    // Temperature
-    const sensors::SensorConf ds18b20_conf{A0, 15000};
-    // Pressure - Madrid: 1001.1f Noja: 10.0f
-    const sensors::Bmp280Conf bmp280_conf{0x76, 20000, 1001.1f};
-    // PH, once per hour
-    const sensors::SensorConf ph_conf{A2, 3600000};
-    // TDS once per hour
-    const sensors::SensorConf tds_conf{A4, 3600000};
+// Actuators configuration
+const float high_temperature_alarm = 29.5; // Celsius
+const float low_temperature_alarm = 23.0;  // Celsius
 
-    // Actuators configuration
-    const float high_temperature_alarm = 29.5; // Celsius
-    const float low_temperature_alarm = 23.0;  // Celsius
-    const struct {
-	// Controlling: Ultraviolet leds (Blue), White Leds (Green) & Fan (Red)
-	byte p9813_data_pin_1;
-	byte p9813_clock_pin_1;
+// Interface
+// const byte lcd_addr = 0x27;
+// const byte screen_cols = 20;
+// const byte screen_rows = 4;
+const byte lcd_addr = 0x3F;
+const byte screen_cols = 16;
+const byte screen_rows = 2;
+const byte screen_size = screen_cols * screen_rows;
 
-	// Controlling RGB Led Strip
-	byte p9813_data_pin_2;
-	byte p9813_clock_pin_2;
+// Tiempo que esperamos presionar una tecla hasta apagar el lcd
+const unsigned long max_inactive_millis = 60000;
 
-	byte co2;
-	byte filter;
-	byte heater;
-	byte air_pump;
+struct SensorConf {
+    byte pin;
+    unsigned long time_between_reads;
+};
 
-	byte warning_led;
+struct TdsConf {
+    byte pin;
+    unsigned long time_between_reads;
 
-	byte stepper1;
-	byte stepper2;
-	byte stepper3;
-	byte stepper4;
+    float adc_ref;   // reference voltage on ADC, default 5.0V on Arduino UNO
+    float adc_range; // 1024 for 10bit ADC;4096 for 12bit ADC
+};
 
-	byte btn_feed;
-	byte btn_filter;
-	byte btn_lights;
+struct HourMinute {
+    byte hour;
+    byte minute;
 
-	byte btn_up;
-	byte btn_down;
-	byte btn_left;
-	byte btn_right;
-	byte btn_ok;
-	byte btn_esc;
+    word minutes() const;
+};
 
-    } pines = {11, 10, 5,  4,  24, 26, 28, 30, 52,  38, 36,
-        34, 32, 50, 46, 48, A7, A9, A8, A11, A6, A10};
+struct Period {
+    HourMinute init, end;
+    bool in_period(const HourMinute& hm) const;
+};
 
-    using PeriodType = actuators::PhotoPeriod::Type;
+struct PhotoPeriod {
+    Period period;
+    byte phases_on;
+};
 
-    const actuators::LedStrip white = {{{{8, 0}, {12, 0}, PeriodType::rise},
-        {{12, 1}, {17, 0}, PeriodType::on},
-        {{17, 1}, {21, 30}, PeriodType::fall}}};
+// Photoperiods
+const PhotoPeriod photo_periods[] = {
+    {{{7, 30}, {11, 0}}, 1}, // Photoperiodo 1
+    {{{11, 1}, {12, 0}}, 2}, // Photoperiodo 2
+    {{{12, 1}, {13, 0}}, 4}, // Photoperiodo 3
+    {{{13, 1}, {14, 0}}, 5}, // Photoperiodo 4
+    {{{14, 1}, {15, 0}}, 7}, // Photoperiodo 5
+    {{{15, 1}, {16, 0}}, 8}, // Photoperiodo 6
+    {{{16, 1}, {17, 0}}, 7}, // Photoperiodo 7
+    {{{17, 1}, {18, 0}}, 5}, // Photoperiodo 8
+    {{{18, 1}, {19, 0}}, 4}, // Photoperiodo 9
+    {{{19, 1}, {21, 0}}, 2}, // Photoperiodo 10
+    {{{21, 1}, {22, 30}}, 1} // Photoperiodo 11
+};
 
-    const actuators::LedStrip uv = {{{{18, 0}, {21, 30}, PeriodType::rise},
-        {{21, 31}, {23, 0}, PeriodType::on},
-        {{23, 1}, {12, 0}, PeriodType::fall}}};
+struct Co2Period {
+    Period period;
+    bool on;
+};
 
-    const actuators::LedStrip red = {{{{7, 30}, {9, 0}, PeriodType::rise},
-        {{9, 0}, {15, 0}, PeriodType::on},
-        {{15, 0}, {17, 0}, PeriodType::fall}}};
+const Co2Period co2_period[] = {{{{6, 0}, {12, 0}}, true}};
 
-    const actuators::LedStrip green = {{{{13, 0}, {14, 0}, PeriodType::rise},
-        {{14, 0}, {15, 0}, PeriodType::on},
-        {{15, 0}, {17, 0}, PeriodType::fall}}};
+// Temperature
+// https://naylampmechatronics.com/blog/46_Tutorial-sensor-de-temperatura-DS18B20.html
+const SensorConf ds18b20_conf{A0, 15000};
 
-    const actuators::LedStrip blue = {{{{16, 0}, {18, 0}, PeriodType::rise},
-        {{18, 0}, {20, 0}, PeriodType::on},
-        {{20, 0}, {23, 0}, PeriodType::fall}}};
+// TDS once per hour
+const TdsConf tds_conf{A4, 3600000, 5.0, 1024};
 
-    const actuators::Feeding feeding = {{32, 150, 1}, {8, 0}, {14, 0},
-        {20, 0}, dowSaturday, false};
+// pines
+const struct {
 
-    // Interface
-    const byte lcd_addr = 0x27;
-    const byte screen_cols = 20;
-    const byte screen_rows = 4;
-    const byte screen_size = screen_cols * screen_rows;
+    byte co2;
+    byte filter;
+    byte heater;
+    byte pump;
+    byte fan;
 
-    // Tiempo que esperamos presionar una tecla hasta apagar el lcd
-    const unsigned long max_inactive_millis = 60000;
+    byte warn_led;
+
+    byte btn_co2;
+    byte btn_pump;
+    byte btn_filter;
+    byte btn_lights;
+
+    byte encoder_btn;
+    byte encoder_dt;
+    byte encoder_sw;
+
+    byte phases[n_phases];
+
+} pines = {
+    0, // co2
+    0, // filter
+    0, // heater
+    0, // pump
+    0, // fan
+
+    0, // warn_led
+
+    0, // btn_co2
+    0, // btn_pump
+    0, // btn_filter
+    0, // btn_lights
+
+    0, // encoder_btn
+    0, // encoder_dt
+    0, // encoder_sw
+
+    {0, 0, 0, 0, 0, 0, 0, 0}, // phases[n_phases]
+};
+
 } // namespace defaults

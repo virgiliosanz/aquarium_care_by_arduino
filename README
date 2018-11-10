@@ -1,20 +1,41 @@
-  - Button:
-    - http://platformio.org/lib/show/1260/OneButton
-  - LiquidCrystal:
-    - http://platformio.org/lib/show/136/LiquidCrystal
-  - Temperatura
-    - http://platformio.org/lib/show/54/ds18b20
-  - PH
-  - Humedad Relativa
-    - http://platformio.org/lib/show/19/dht
-  - Presión Atmosferica
-    - http://platformio.org/lib/show/528/bmp280
-  - Callback
-    - http://platformio.org/lib/show/660/Callback
-  - Time
-    - http://platformio.org/lib/show/44/Time
-    - http://platformio.org/lib/show/68/TimeAlarms
-    - http://platformio.org/lib/show/421/DS1307RTC
-  - json:
-    - https://github.com/bblanchon/ArduinoJson
-  -
+* My Aquarium Lights and Monitoring System
+** Introduction
+** Hardware
+*** Led Lamp
+- Leds
+- Relay
+- Constant current power
+*** Sensors
+- Temperature
+- TDS
+- pH
+*** Others
+- Watch
+** Software
+*** Architecture
+I am using the Arduino Logic for all my classes. I mean, they have a
+constructor, destructor and a setup and loop methods at the minimum.
+
+I am also following the logic for actuators and sensors. I treat them that
+way.
+
+I believe the more dificult part is the LCD and the Rotary Encoder (..and
+		switch button). For that I am using the "State" Pattern as described in:
+https://en.wikipedia.org/wiki/State_pattern.
+Implemented as follows:
+
+- //Context// is implemented in the //Interfaze// class
+- //State//  is implemented in the //Screen// class
+- //Concrete States// are implemented in //Screen[0-N]// classes
+
+*** PlatformIO Libraries used
+- Button:
+- http://platformio.org/lib/show/1260/OneButton
+- LiquidCrystal_I2C:
+- http://platformio.org/lib/show/576/LiquidCrystal_I2C
+- Temperatura
+- http://platformio.org/lib/show/54/ds18b20
+- Time
+- http://platformio.org/lib/show/44/Time
+- http://platformio.org/lib/show/68/TimeAlarms
+- http://platformio.org/lib/show/421/DS1307RTC

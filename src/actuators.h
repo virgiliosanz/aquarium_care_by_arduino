@@ -1,75 +1,46 @@
 #pragma once
 
 #include <Arduino.h>
-#include <Time.h>
-#include <ChainableLED.h>
 
 namespace actuators {
 
-    void setup();
-    void loop();
+// Public Interfaz
+void setup();
+void loop();
 
-    void switch_lights();
-    void switch_filter_and_heater();
-    void switch_feed_status();
+void switch_pump();
+void switch_filter_and_heater();
 
-    class Rele {
-	public:
-	    Rele(byte _pin);
-	    void toggle();
-	    void on();
-	    void off();
-	    bool is_on() const;
-	    bool is_off() const;
+void co2_behaviour(bool automatic);
+void switch_co2(bool on);
+void lights_behaviour(bool automatic);
+void switch_lights(bool on[]);
+bool* phases_on();
 
-	private:
-	    uint8_t pin;
-	    uint8_t value;
-    };
+// Clases y apoyo
+class Rele {
+  public:
+    Rele(byte _pin);
+    Rele();
 
-    extern Rele fan;
-    extern Rele filter;
-    extern Rele heater;
-    extern Rele air_pump;
+    void set_pin(byte _pin);
+    void toggle();
+    void on();
+    void off();
+    bool is_on() const;
+    bool is_off() const;
 
-    struct HourMinute {
-	uint8_t hour;
-	uint8_t minute;
+  private:
+    byte pin;
+    byte value;
+};
 
-	uint16_t minutes() const;
-    };
+extern Rele fan;
+extern Rele filter;
+extern Rele heater;
+extern Rele pump;
+extern Rele co2;
+// extern Rele air_pump;
+extern Rele phases[];
 
-    struct PhotoPeriod {
-	HourMinute init, end;
-	enum class Type { on, rise, fall } type;
-	bool in_period(const HourMinute& hm) const;
-    };
-
-    struct LedStrip {
-	PhotoPeriod periods[3];
-    };
-
-    struct LedStripStatus {
-	uint8_t pwm;
-	bool automatic;
-    };
-
-    LedStripStatus get_white();
-    LedStripStatus get_red();
-    LedStripStatus get_green();
-    LedStripStatus get_blue();
-    LedStripStatus get_uv();
-
-    struct Feeding {
-	struct {
-            uint8_t steps_per_revolution;
-            uint8_t speed;
-            uint8_t revolutions;
-	} stepper;
-	HourMinute breakfast, lunch, dinner;
-	uint8_t fasting_day;
-	bool active;
-    };
-    extern Feeding feeding;
-
-}
+} // namespace actuators
