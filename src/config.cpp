@@ -2,8 +2,8 @@
 #include <defaults.h>
 #include <DS1307RTC.h>
 #include <EEPROM.h>
+#include <HardwareSerial.h>
 #include <info.h>
-#include <LiquidCrystal_I2C.h>
 #include <string.h>
 #include <TimeLib.h>
 #include <WString.h>

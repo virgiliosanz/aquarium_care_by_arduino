@@ -1,5 +1,5 @@
 #pragma once
-#include <Arduino.h>
+class __FlashStringHelper;
 
 unsigned freeRam();
 
