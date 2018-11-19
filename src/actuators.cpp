@@ -4,6 +4,7 @@
 #include <info.h>
 #include <OneButton.h>
 #include <sensors.h>
+#include <stdint.h>
 #include <TimeLib.h>
 #include <WString.h>
 
@@ -17,12 +18,15 @@ static byte warning;
 static bool co2_is_automatic;
 static bool lights_are_automatic;
 
+static bool lights_on[defaults::n_phases];
+static byte n_lights_on = 0;
+
 Rele fan { defaults::pines.fan };
 Rele filter { defaults::pines.filter };
 Rele heater { defaults::pines.heater };
 Rele pump { defaults::pines.pump };
 Rele co2 { defaults::pines.co2 };
-Rele phases[defaults::n_phases];
+Rele phases[defaults::n_phases] = { };
 
 static bool is_too_warm();
 static bool is_too_cold();
@@ -103,42 +107,56 @@ void lights_behaviour(bool automatic) {
 	lights_are_automatic = automatic;
 }
 
+bool lights_automatic() {
+	return lights_are_automatic;
+}
+
 static void switch_lights() {
-	// Buscar en que periodo estamos y ver las fases
-	static defaults::HourMinute now = { (byte) hour(), (byte) minute() };
-	byte current_period = 0;
-	for (byte i = 0; i < defaults::n_phases; i++) {
+	// Search for current Period
+	defaults::HourMinute now = { (byte) hour(), (byte) minute() };
+	const defaults::PhotoPeriod* current_period = NULL;
+
+	for (int8_t i = 0; i < defaults::n_periods; i++) {
 		if (defaults::photo_periods[i].period.in_period(now)) {
-			current_period = i;
+			current_period = &defaults::photo_periods[i];
 			break;
 		}
 	}
 
-	// Crear un array random del número de fases a encender
+	// Build a random array of lights to switch
 	bool lights_to_switch[defaults::n_phases] = { false };
-	if (current_period != 0) {
+	if (NULL != current_period) {
+		// Check if we have the number of lights needed
+		if (current_period->phases_on == n_lights_on) {
+			return;
+		}
+
 		byte current = 0;
 		byte next = 0;
-		// No more than 1000 iterations...
+
+		// while (true) { // move to for to avoid looping forever
 		for (byte i = 0; i < 1000; i++) {
 			next = random(defaults::n_phases);
+
 			if (!lights_to_switch[next]) {
 				lights_to_switch[next] = true;
 				current++;
 			}
-			if (current == defaults::photo_periods[current_period].phases_on)
+
+			if (current == current_period->phases_on)
 				break;
 		}
+
 	}
 	switch_lights(lights_to_switch);
 }
 
-static bool lights_on[defaults::n_phases];
 void switch_lights(bool on[]) {
+	n_lights_on = 0;
 	for (byte i = 0; i < defaults::n_phases; i++) {
 		lights_on[i] = on[i];
-
 		if (on[i]) {
+			n_lights_on++;
 			phases[i].on();
 		} else {
 			phases[i].off();
@@ -154,14 +172,22 @@ bool* phases_on() {
 void co2_behaviour(bool automatic) {
 	co2_is_automatic = automatic;
 }
-void switch_co2(bool on) {
-	// TODO: Implement switch_co2phases_on();
+bool co2_automatic() {
+	return co2_is_automatic;
 }
-void switch_co2() {
-	// TODO: Implement switch_co2
 
-	// Buscar en que periodo estamos y ver las fases
-	//static defaults::HourMinute now = {(byte)hour(), (byte)minute()};
+void switch_co2(bool on) {
+	if (on) {
+		co2.on();
+	} else {
+		co2.off();
+	}
+}
+
+void switch_co2() {
+	defaults::HourMinute now = {(byte)hour(), (byte)minute()};
+	bool on = defaults::co2_period.in_period(now) ? true : false;
+	switch_co2(on);
 }
 
 // ------------------------------- Other Reles -------------------------------
@@ -176,9 +202,12 @@ void switch_pump() {
 // ------------------------------- Rele Class -------------------------------
 Rele::Rele(byte _pin) :
 		pin(_pin) {
+	value = -1;
 }
+
 Rele::Rele() :
 		pin(0) {
+	value = -1;
 }
 
 void Rele::set_pin(byte _pin) {
@@ -216,4 +245,4 @@ bool Rele::is_off() const {
 	return !is_on();
 }
 
-} // namespace actuators
+}

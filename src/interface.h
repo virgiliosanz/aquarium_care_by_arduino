@@ -2,10 +2,9 @@
 
 #include <Arduino.h>
 #include <defaults.h>
-#include <Encoder.h>
-#include <OneButton.h>
 #include <stdint.h>
 #include <TimeLib.h>
+#include <ClickEncoder.h>
 
 namespace interface {
 
@@ -62,12 +61,11 @@ private:
 	char at_lcd_[defaults::screen_size + 1];
 	char to_lcd_[defaults::screen_size + 1];
 
-	OneButton ok_;
+public:
 	// Encoder:
 	// https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
 	// Mega interrupt capability pins: 2, 3, 18, 19, 20, 21
-	Encoder encoder_;
-	long last_encoder_pos_;
+	ClickEncoder encoder_;
 };
 
 class Screen {
@@ -99,6 +97,7 @@ protected:
 struct Home: public Screen {
 	static Home* instance();
 	void right();
+	void left();
 	void ok();
 	void update_screen();
 };
@@ -152,18 +151,16 @@ public:
 
 	static CheckEdit* instance();
 
+	void enter();
+	void leave();
 	void ok();
 	void update_screen();
-
-protected:
-	void check_phase(byte n);
-	void check_tds();
-	void check_temperatures();
 
 private:
 	enum class Checking {
 		Phase, TDS, Temperatures
 	} checking_;
+	byte current_phase;
 };
 
 }

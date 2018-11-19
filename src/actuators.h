@@ -11,8 +11,11 @@ void loop();
 void switch_pump();
 void switch_filter_and_heater();
 
+bool co2_automatic();
 void co2_behaviour(bool automatic);
 void switch_co2(bool on);
+
+bool lights_automatic();
 void lights_behaviour(bool automatic);
 void switch_lights(bool on[]);
 bool* phases_on();

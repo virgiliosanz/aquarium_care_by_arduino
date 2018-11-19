@@ -9,7 +9,7 @@ word HourMinute::minutes() const {
 
 bool Period::in_period(const HourMinute& hm) const {
 	word m = hm.minutes();
-	return (init.minutes() < m && m < end.minutes());
+	return (init.minutes() <= m && m <= end.minutes());
 }
 
 } // namespace defaults

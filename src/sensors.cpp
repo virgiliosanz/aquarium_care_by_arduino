@@ -1,3 +1,4 @@
+#include <config.h>
 #include <defaults.h>
 #include <DallasTemperature.h>
 #include <GravityTDS.h>
@@ -22,7 +23,7 @@ static SensorsData sensors_data { { 0 } };
 void setup() {
 	p(F("Sensors::setup()"));
 
-	// Temp: ds128b20
+	// Temperature: ds128b20
 	sensors_data.ds18b20.sensor_ok = true;
 	if (!sensors.getAddress(insideThermometer, insideThermometer_id)) {
 		p(F("Unable to find address for Device 0"));
@@ -39,6 +40,7 @@ void setup() {
 	tds.setPin((int) defaults::tds_conf.pin);
 	tds.setAref(defaults::tds_conf.adc_ref);
 	tds.setAdcRange(defaults::tds_conf.adc_range);
+	tds.setKvalueAddress(config::tds_address);
 	tds.begin();
 
 	sensors_data.tds.time_between_reads = defaults::tds_conf.time_between_reads;

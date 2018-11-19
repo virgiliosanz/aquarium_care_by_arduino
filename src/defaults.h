@@ -47,7 +47,10 @@ struct HourMinute {
 };
 
 struct Period {
-	HourMinute init, end;bool in_period(const HourMinute& hm) const;
+	HourMinute init;
+	HourMinute end;
+	
+	bool in_period(const HourMinute& hm) const;
 };
 
 struct PhotoPeriod {
@@ -56,7 +59,9 @@ struct PhotoPeriod {
 };
 
 // Photoperiods
-const PhotoPeriod photo_periods[] = { { { { 7, 30 }, { 11, 0 } }, 1 }, // Photoperiodo 1
+const byte n_periods = 11;
+const PhotoPeriod photo_periods[] = {  // Each photoperiod define an interval and a number of phases on 
+	    { { {  8, 0 }, { 11, 0 } }, 1 }, // Photoperiodo 1
 		{ { { 11, 1 }, { 12, 0 } }, 2 }, // Photoperiodo 2
 		{ { { 12, 1 }, { 13, 0 } }, 4 }, // Photoperiodo 3
 		{ { { 13, 1 }, { 14, 0 } }, 5 }, // Photoperiodo 4
@@ -69,18 +74,15 @@ const PhotoPeriod photo_periods[] = { { { { 7, 30 }, { 11, 0 } }, 1 }, // Photop
 		{ { { 21, 1 }, { 22, 30 } }, 1 } // Photoperiodo 11
 };
 
-struct Co2Period {
-	Period period;bool on;
-};
 
-const Co2Period co2_period[] = { { { { 6, 0 }, { 12, 0 } }, true } };
+const Period co2_period = { { 7, 0 }, { 12, 0 } };
 
-// Temperature
 // https://naylampmechatronics.com/blog/46_Tutorial-sensor-de-temperatura-DS18B20.html
-const SensorConf ds18b20_conf { A8, 1000 }; // 15000
+// Temperature once per minute
+const SensorConf ds18b20_conf { A8, 60000 };
 
-// TDS once per hour
-const TdsConf tds_conf { A10, 1000, 5.0, 1024 };  // 3600000
+// TDS once per 10 minutes
+const TdsConf tds_conf { A10, 1000, 5.0,  3600000};
 
 // pines
 const struct {
@@ -106,7 +108,9 @@ const struct {
 
 	byte phases[n_phases];
 
-} pines = { 0, // co2
+} pines = { // setup pines here
+
+		0, // co2
 		0, // filter
 		0, // heater
 		0, // pump
@@ -120,11 +124,11 @@ const struct {
 //    0, // btn_lights
 
 // // Interrrupt pins: Mega, Mega2560, MegaADK	2, 3, 18, 19, 20, 21
-		4,// encoder_sw
+		4, // encoder_sw
 		3, // encoder_dt
-		2, // encoder_cll
+		2, // encoder_clk
 
-		{ 0, 0, 0, 0, 0, 0, 0, 0 }, // phases[n_phases]
-		};
+		{ A0, A1, A2, A3, A4, A5, A6, A7 }, // phases[n_phases]
+};
 
 } // namespace defaults

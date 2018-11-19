@@ -10,7 +10,7 @@
 
 namespace config {
 
-static const char version[] = "0.4.0";
+static const char version[] = "0.5.0";
 static const int version_addr = 0;
 
 // Struct to save & read from eeprom
@@ -20,6 +20,8 @@ static const int high_temperature_alarm_addr = sizeof(version) + 1;
 float low_temperature_alarm = defaults::low_temperature_alarm;
 static const int low_temperature_alarm_addr = high_temperature_alarm_addr
 		+ sizeof(high_temperature_alarm) + 1;
+
+int tds_address = low_temperature_alarm_addr + sizeof(low_temperature_alarm) + 1;
 
 bool co2_automatic = true;
 bool lights_automatic = true;

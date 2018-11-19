@@ -44,12 +44,12 @@ PlatformioArduinoSTD = '~/.platformio/packages/toolchain-atmelavr/avr/include'
 # paths, or paths relative to the user (using ~/path/to/file).
 libDirs = [
         "lib"
-           ,"src"
-           ,PlatformioAutogen
-           ,PlatformioArduinoCore
-           ,PlatformioArduinoLibs
-           ,PlatformioArduinoSTD
-           ]
+        ,"src"
+        ,PlatformioAutogen
+        ,PlatformioArduinoCore
+        ,PlatformioArduinoLibs
+        ,PlatformioArduinoSTD
+]
 
 flags = [
     # General flags
@@ -110,7 +110,7 @@ def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
 
         # dir is relative to `working_directory`
         if not libDir.startswith('/'):
-            libDir = os.path.join(working_directory,libDir)
+            libDir = os.path.join(working_directory, libDir)
 
         # Else, assume dir is absolute
 
