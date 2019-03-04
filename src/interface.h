@@ -158,9 +158,31 @@ public:
 
 private:
 	enum class Checking {
-		Phase, TDS, Temperatures
+		Phase, TDS, Temperatures,
 	} checking_;
 	byte current_phase;
+};
+
+struct WaterChange: public Screen {
+	static WaterChange* instance();
+	void ok();
+	void left();
+	void right();
+	void update_screen();
+};
+
+class WaterChangeEdit: public Screen {
+public:
+	static WaterChangeEdit* instance();
+	void ok();
+	void left();
+	void right();
+	void enter();
+	void leave();
+	void update_screen();
+private:
+	WaterChangeEdit();
+	bool pump_;
 };
 
 }

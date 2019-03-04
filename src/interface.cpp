@@ -235,7 +235,6 @@ Home* Home::instance()
 }
 
 void Home::left() { interface_->move_to_screen(Check::instance()); }
-
 void Home::right() { interface_->move_to_screen(Info::instance()); }
 void Home::ok() { interface_->move_to_screen(HomeEdit::instance()); }
 
@@ -409,7 +408,7 @@ void Info::update_screen()
     sensors::SensorsData data = sensors::get_sensors_data();
 
     //                    0123456789012345
-    interface_->to_lcd(F("Te 45   Mem 9999"
+    interface_->to_lcd(F("T  45   Mem 9999"
                          "CO2 A   Lights A"));
 
     interface_->to_lcd(data.ds18b20.external, 3, -2, 0);
@@ -420,6 +419,9 @@ void Info::update_screen()
 
 // ----------------------------------------------------------------
 
+
+// ----------------------------------------------------------------
+
 Check* Check::instance()
 {
     static Check screen;
@@ -427,7 +429,7 @@ Check* Check::instance()
 }
 
 void Check::left() { interface_->move_to_screen(Info::instance()); }
-void Check::right() { interface_->move_to_screen(Home::instance()); }
+void Check::right() { interface_->move_to_screen(WaterChange::instance()); }
 void Check::ok() { interface_->move_to_screen(CheckEdit::instance()); }
 void Check::update_screen()
 {
@@ -475,7 +477,7 @@ void CheckEdit::ok()
         break;
 
     case (Checking::Temperatures):
-        interface_->move_to_screen(Home::instance());
+        interface_->move_to_screen(WaterChange::instance());
         break;
     }
 }
@@ -509,4 +511,55 @@ void CheckEdit::update_screen()
     }
 }
 
+// Water Change
+WaterChange* WaterChange::instance() {
+    static WaterChange screen;
+    return &screen;
+}
+
+void WaterChange::ok() {interface_->move_to_screen(WaterChangeEdit::instance());}
+void WaterChange::left() {interface_->move_to_screen(Check::instance());}
+void WaterChange::right() {interface_->move_to_screen(Home::instance());} 
+void WaterChange::update_screen() {
+    //                    0123456789012345
+    interface_->to_lcd(F("  Water Change  "
+                         " Click to start "));
+}
+
+
+// When entering: stop filter, heater & CO2
+// When leaving: stop pupm, start filter, heater and CO2 
+WaterChangeEdit::WaterChangeEdit(): pump_(false) {}
+
+WaterChangeEdit* WaterChangeEdit::instance() {
+    static WaterChangeEdit screen;
+    return &screen;
+}
+
+// Click -> water change switch
+// Left or right back move to WaterChange main screen
+void WaterChangeEdit::left() {interface_->move_to_screen(WaterChange::instance());}
+void WaterChangeEdit::right() {interface_->move_to_screen(WaterChange::instance());}
+void WaterChangeEdit::enter() {
+    actuators::switch_filter_and_heater();
+    actuators::switch_co2(false);
+}
+void WaterChangeEdit::leave() {
+    actuators::switch_filter_and_heater();
+    actuators::co2_automatic();
+}
+void WaterChangeEdit::ok() {
+    pump_ = !pump_;
+    actuators::switch_pump();
+}
+void WaterChangeEdit::update_screen() {
+    //                       0123456789012345
+    if (pump_) {
+        interface_->to_lcd(F("Pump:  ON       "
+                             "Move to go back "));
+    } else {
+        interface_->to_lcd(F("Pump:  OFF      "
+                             "Move to go back "));
+    }
+}
 }

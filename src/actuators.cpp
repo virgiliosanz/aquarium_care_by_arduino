@@ -2,7 +2,7 @@
 #include <config.h>
 #include <defaults.h>
 #include <info.h>
-#include <OneButton.h>
+//#include <OneButton.h>
 #include <sensors.h>
 #include <stdint.h>
 #include <TimeLib.h>
@@ -10,8 +10,8 @@
 
 namespace actuators {
 
-static OneButton btn_pump { defaults::pines.btn_pump, true };
-static OneButton btn_filter { defaults::pines.btn_filter, true };
+//static OneButton btn_pump { defaults::pines.btn_pump, true };
+//static OneButton btn_filter { defaults::pines.btn_filter, true };
 
 static byte warning;
 
@@ -52,8 +52,8 @@ void setup() {
 	co2_is_automatic = config::co2_automatic;
 	lights_are_automatic = config::lights_automatic;
 
-	btn_pump.attachClick(switch_pump);
-	btn_filter.attachClick(switch_filter_and_heater);
+//	btn_pump.attachClick(switch_pump);
+//	btn_filter.attachClick(switch_filter_and_heater);
 
 	randomSeed((unsigned long int) analogRead(0));
 }
@@ -67,8 +67,8 @@ void loop() {
 
 	check_temp();
 
-	btn_filter.tick();
-	btn_pump.tick();
+//	btn_filter.tick();
+//	btn_pump.tick();
 
 	if (filter.is_off() || heater.is_off())
 		warning = HIGH;
