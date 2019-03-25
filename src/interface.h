@@ -24,6 +24,8 @@ void ok();
  ConcreteStates = Screen[0-N]
  */
 class Screen;
+class Interface;
+
 class Interface {
 public:
 	Interface();
@@ -181,7 +183,6 @@ public:
 	void leave();
 	void update_screen();
 private:
-	WaterChangeEdit();
 	bool pump_;
 };
 

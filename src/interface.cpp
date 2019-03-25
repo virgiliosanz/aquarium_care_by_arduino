@@ -234,7 +234,7 @@ Home* Home::instance()
     return &screen;
 }
 
-void Home::left() { interface_->move_to_screen(Check::instance()); }
+void Home::left() { interface_->move_to_screen(WaterChange::instance()); }
 void Home::right() { interface_->move_to_screen(Info::instance()); }
 void Home::ok() { interface_->move_to_screen(HomeEdit::instance()); }
 
@@ -493,7 +493,7 @@ void CheckEdit::update_screen()
     switch (checking_) {
     case (Checking::Phase):
         interface_->to_lcd("Phase", 16 + 4, 5);
-        interface_->to_lcd(current_phase + 1, 16 + 10, -2);
+        interface_->to_lcd(current_phase + 1, 16 + 10, -3);
         break;
 
     case (Checking::TDS):
@@ -527,39 +527,50 @@ void WaterChange::update_screen() {
 }
 
 
-// When entering: stop filter, heater & CO2
-// When leaving: stop pupm, start filter, heater and CO2 
-WaterChangeEdit::WaterChangeEdit(): pump_(false) {}
-
 WaterChangeEdit* WaterChangeEdit::instance() {
     static WaterChangeEdit screen;
     return &screen;
 }
 
-// Click -> water change switch
 // Left or right back move to WaterChange main screen
-void WaterChangeEdit::left() {interface_->move_to_screen(WaterChange::instance());}
-void WaterChangeEdit::right() {interface_->move_to_screen(WaterChange::instance());}
+void WaterChangeEdit::left() {p(F("WaterChangeEdit:left()"));interface_->move_to_screen(WaterChange::instance());}
+void WaterChangeEdit::right() {p(F("WaterChangeEdit:right()"));interface_->move_to_screen(WaterChange::instance());}
+
+// When entering: stop filter, heater & CO2
 void WaterChangeEdit::enter() {
+    p(F("Entering WaterEChangEdit"));
+    pump_ = false;
     actuators::switch_filter_and_heater();
+    actuators::co2_behaviour(false);
     actuators::switch_co2(false);
 }
+
+// When leaving: stop pupm, start filter, heater and CO2 
 void WaterChangeEdit::leave() {
+    p(F("Leaving WaterChangeEdit"));
     actuators::switch_filter_and_heater();
-    actuators::co2_automatic();
+    actuators::co2_behaviour(true);
+    if (pump_) {
+        actuators::switch_pump();
+        pump_ = false;
+    }
 }
+
+// Click -> water change switch
 void WaterChangeEdit::ok() {
+    p(F("WaterChangeEdit:ok()"));
     pump_ = !pump_;
     actuators::switch_pump();
 }
+
 void WaterChangeEdit::update_screen() {
     //                       0123456789012345
     if (pump_) {
         interface_->to_lcd(F("Pump:  ON       "
-                             "Move to go back "));
+                             "Right to go back"));
     } else {
         interface_->to_lcd(F("Pump:  OFF      "
-                             "Move to go back "));
+                             "Left to go back "));
     }
 }
 }

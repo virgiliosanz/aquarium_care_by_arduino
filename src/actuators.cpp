@@ -90,6 +90,7 @@ bool is_too_cold() {
 void check_temp() {
 	warning = LOW;
 	if (is_too_warm()) {
+		p(F("Watter is too WARM!!"));
 		warning = HIGH;
 		fan.on();
 		// air_pump.on();
@@ -104,6 +105,7 @@ void check_temp() {
 
 // ------------------------------- LIGHTS -------------------------------
 void lights_behaviour(bool automatic) {
+	p(F("Lights automatic = %d"), automatic);
 	lights_are_automatic = automatic;
 }
 
@@ -111,17 +113,26 @@ bool lights_automatic() {
 	return lights_are_automatic;
 }
 
-static void switch_lights() {
-	// Search for current Period
+
+static const defaults::PhotoPeriod* find_current_period()
+{
+	const defaults::PhotoPeriod* period = NULL;
+
 	defaults::HourMinute now = { (byte) hour(), (byte) minute() };
-	const defaults::PhotoPeriod* current_period = NULL;
 
 	for (int8_t i = 0; i < defaults::n_periods; i++) {
 		if (defaults::photo_periods[i].period.in_period(now)) {
-			current_period = &defaults::photo_periods[i];
+			period = &defaults::photo_periods[i];
 			break;
 		}
 	}
+
+	return period;
+}
+
+static void switch_lights() {
+	// Search for current Period
+	const defaults::PhotoPeriod* current_period = find_current_period();
 
 	// Build a random array of lights to switch
 	bool lights_to_switch[defaults::n_phases] = { false };
@@ -130,11 +141,11 @@ static void switch_lights() {
 		if (current_period->phases_on == n_lights_on) {
 			return;
 		}
-
+ 
 		byte current = 0;
 		byte next = 0;
 
-		// while (true) { // move to for to avoid looping forever
+		// Look for a new phase randomly...
 		for (byte i = 0; i < 1000; i++) {
 			next = random(defaults::n_phases);
 
@@ -170,6 +181,7 @@ bool* phases_on() {
 
 // ------------------------------- CO2 -------------------------------
 void co2_behaviour(bool automatic) {
+	p(F("CO2 automatic is: %d"), automatic);
 	co2_is_automatic = automatic;
 }
 bool co2_automatic() {

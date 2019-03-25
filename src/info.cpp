@@ -23,6 +23,6 @@ void p(const __FlashStringHelper* fmt, ...)
 #else
 		vsnprintf(buf, 128, (const char*)fmt, args);
 #endif
-		va_end(args);
-		Serial.println(buf);
-	}
+	va_end(args);
+	Serial.println(buf);
+}
