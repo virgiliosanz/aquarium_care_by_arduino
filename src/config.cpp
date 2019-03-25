@@ -62,38 +62,27 @@ void update_eeprom() {
 
 void check_i2c() {
 	byte error, address;
-  	int nDevices;
+  	int n_devices;
 	
-	Serial.println("i2c Scanning: START");
-	nDevices = 0;
+	p(F("i2c Scanning: START"));
+	n_devices = 0;
 	for(address = 1; address < 127; address++ ) {
-    	// The i2c_scanner uses the return value of
-    	// the Write.endTransmisstion to see if
-    	// a device did acknowledge to the address.
     	Wire.beginTransmission(address);
     	error = Wire.endTransmission();
  
     	if (error == 0) {
-      		Serial.print("I2C device found at address 0x");
-      		if (address<16)
-        		Serial.print("0");
-      		Serial.print(address, HEX);
-      		Serial.println("  !");
- 
-      		nDevices++;
+      		p(F("I2C device found at address %x !"), address); 
+      		n_devices++;
     	}
 		else if (error==4) {
-      		Serial.print("Unknown error at address 0x");
-      		if (address<16)
-				Serial.print("0");
-      		Serial.println(address,HEX);
+      		p(F("Unknown error at address %x"), address);
     	}    
   	}
 
-  	if (nDevices == 0)
-    	Serial.println("No I2C devices found\n");
+  	if (n_devices == 0)
+    	p(F("No I2C devices found"));
 
-    Serial.println("i2c scanning: DONE!\n");
+    p(F("i2c scanning: %d devices found!"), n_devices);
 }
 
 

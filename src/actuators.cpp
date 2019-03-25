@@ -141,7 +141,7 @@ static void switch_lights() {
 		if (current_period->phases_on == n_lights_on) {
 			return;
 		}
- 
+
 		byte current = 0;
 		byte next = 0;
 
