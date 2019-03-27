@@ -5,39 +5,38 @@
 
 namespace defaults {
 
-
 ///////////////////////////////////////////////
 // Some structs needed to group sensors and actuators in configuration
 struct SensorConf {
-	byte pin;
-	unsigned long time_between_reads;
+  byte pin;
+  unsigned long time_between_reads;
 };
 
 struct TdsConf {
-	byte pin;
-	unsigned long time_between_reads;
+  byte pin;
+  unsigned long time_between_reads;
 
-	float adc_ref;   // reference voltage on ADC, default 5.0V on Arduino UNO
-	float adc_range; // 1024 for 10bit ADC;4096 for 12bit ADC
+  float adc_ref;   // reference voltage on ADC, default 5.0V on Arduino UNO
+  float adc_range; // 1024 for 10bit ADC;4096 for 12bit ADC
 };
 
 struct HourMinute {
-	byte hour;
-	byte minute;
+  byte hour;
+  byte minute;
 
-	word minutes() const;
+  word minutes() const;
 };
 
 struct Period {
-	HourMinute init;
-	HourMinute end;
+  HourMinute init;
+  HourMinute end;
 
-	bool in_period(const HourMinute& hm) const;
+  bool in_period(const HourMinute &hm) const;
 };
 
 struct PhotoPeriod {
-	Period period;
-	byte phases_on;
+  Period period;
+  byte phases_on;
 };
 
 ///////////////////////////////////////////////
@@ -65,69 +64,70 @@ const unsigned long max_inactive_millis = 60000;
 
 // Photoperiods
 const byte n_periods = 11;
-const PhotoPeriod photo_periods[] = {  // Each photoperiod define an interval and a number of phases on
-	    { { {  8, 0 }, { 11, 0 } }, 1 }, // Photoperiodo 1
-		{ { { 11, 1 }, { 12, 0 } }, 2 }, // Photoperiodo 2
-		{ { { 12, 1 }, { 13, 0 } }, 4 }, // Photoperiodo 3
-		{ { { 13, 1 }, { 14, 0 } }, 5 }, // Photoperiodo 4
-		{ { { 14, 1 }, { 15, 0 } }, 7 }, // Photoperiodo 5
-		{ { { 15, 1 }, { 16, 0 } }, 8 }, // Photoperiodo 6
-		{ { { 16, 1 }, { 17, 0 } }, 7 }, // Photoperiodo 7
-		{ { { 17, 1 }, { 18, 0 } }, 5 }, // Photoperiodo 8
-		{ { { 18, 1 }, { 19, 0 } }, 4 }, // Photoperiodo 9
-		{ { { 19, 1 }, { 21, 0 } }, 2 }, // Photoperiodo 10
-		{ { { 21, 1 }, { 22, 30 } }, 1 } // Photoperiodo 11
+const PhotoPeriod photo_periods[] = {
+    // Each photoperiod define an interval and a number of phases on
+    {{{8, 0}, {11, 0}}, 1},  // Photoperiodo 1
+    {{{11, 1}, {12, 0}}, 2}, // Photoperiodo 2
+    {{{12, 1}, {13, 0}}, 4}, // Photoperiodo 3
+    {{{13, 1}, {14, 0}}, 5}, // Photoperiodo 4
+    {{{14, 1}, {15, 0}}, 7}, // Photoperiodo 5
+    {{{15, 1}, {16, 0}}, 8}, // Photoperiodo 6
+    {{{16, 1}, {17, 0}}, 7}, // Photoperiodo 7
+    {{{17, 1}, {18, 0}}, 5}, // Photoperiodo 8
+    {{{18, 1}, {19, 0}}, 4}, // Photoperiodo 9
+    {{{19, 1}, {21, 0}}, 2}, // Photoperiodo 10
+    {{{21, 1}, {22, 30}}, 1} // Photoperiodo 11
 };
 
-
-const Period co2_period = { { 7, 0 }, { 14, 0 } };
+const Period co2_period = {{7, 0}, {14, 0}};
 
 // https://naylampmechatronics.com/blog/46_Tutorial-sensor-de-temperatura-DS18B20.html
 // Temperature once per minute
-const SensorConf ds18b20_conf { A1, 30000 };
+const SensorConf ds18b20_conf{A1, 30000};
 
 // TDS once per 10 minutes
-const TdsConf tds_conf { A2, 30000, 5.0,  3600000};
+const TdsConf tds_conf{A2, 30000, 5.0, 3600000};
 
 // pines
 const struct {
-	byte co2;
-	byte filter;
-	byte heater;
-	byte pump;
-	byte fan;
+  byte co2;
+  byte filter;
+  byte heater;
+  byte pump;
+  byte fan;
 
-	byte warn_led;
+  byte warn_led;
 
-//	byte btn_pump;
-//	byte btn_filter;
+  //	byte btn_pump;
+  //	byte btn_filter;
 
-// https://howtomechatronics.com/tutorials/arduino/rotary-encoder-works-use-arduino/
-// Interrrupt pins: Mega, Mega2560, MegaADK	2, 3, 18, 19, 20, 21
-	byte encoder_sw;
-	byte encoder_dt;
-	byte encoder_clk;
+  // https://howtomechatronics.com/tutorials/arduino/rotary-encoder-works-use-arduino/
+  // Interrrupt pins: Mega, Mega2560, MegaADK	2, 3, 18, 19, 20, 21
+  byte encoder_sw;
+  byte encoder_dt;
+  byte encoder_clk;
 
-	byte phases[n_phases];
+  byte phases[n_phases];
 
-} PROGMEM pines = { // setup pines here
+} PROGMEM pines = {
+    // setup pines here
 
-		46, // co2
-		52, // filter
-		50, // heater
-		48, // pump
-		0, // fan
+    46, // co2
+    52, // filter
+    50, // heater
+    48, // pump
+    0,  // fan
 
-		7, // warn_led
+    7, // warn_led
 
-//		49, // btn_pump
-//		47, // btn_filter
-// // Interrrupt pins: Mega, Mega2560, MegaADK	2, 3, 18, 19, 20, 21
-		4, // encoder_sw
-		3, // encoder_dt
-		2, // encoder_clk
+    //		49, // btn_pump
+    //		47, // btn_filter
+    // // Interrrupt pins: Mega, Mega2560, MegaADK	2, 3, 18, 19, 20, 21
+    4, // encoder_sw
+    3, // encoder_dt
+    2, // encoder_clk
 
-		{ 31, 33, 35, 37, 39, 41, 43, 45 }, // phases[n_phases]
+    {31, 33, 35, 37, 39, 41, 43, 45}, // phases[n_phases]
 };
 
-}
+} // namespace defaults

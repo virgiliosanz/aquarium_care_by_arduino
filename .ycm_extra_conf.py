@@ -10,6 +10,7 @@ Anthony Ford <github.com/ajford>
 import os
 import ycm_core
 import logging
+from pprint import pprint as pp
 
 # Logger for additional logging.
 # To enable debug logging, add `let g:ycm_server_log_level = 'debug'` to
@@ -20,7 +21,8 @@ logger = logging.getLogger('ycm-extra-conf')
 ## Platformio automatically copies over the libs you use after your first run.
 ## Be warned that you will not receive autocompletion on libraries until after
 ## your first `platformio run`.
-PlatformioAutogen = ".piolibdeps/"
+PlatformioAutogen = ".pioenvs/"
+PlatformioAutogenLibs = ".piolibdeps/"
 
 # All Platformio Arduin Libs
 ## This will link directly to the Platformio Libs for Arduino.
@@ -39,49 +41,43 @@ PlatformioArduinoCore = "~/.platformio/packages/framework-arduinoavr/cores/ardui
 ## Arduino Std libs from .platformio packages. Provides stdlib.h and such.
 PlatformioArduinoSTD = '~/.platformio/packages/toolchain-atmelavr/avr/include'
 
+PlatformioArduinoVariants = '~/.platformio/packages/framework-arduinoavr/variants/standard/'
+
 # This is the list of all directories to search for header files.
 # Dirs in this list can be paths relative to this file, absolute
 # paths, or paths relative to the user (using ~/path/to/file).
 libDirs = [
-        "lib"
-        ,"src"
-        ,PlatformioAutogen
-        ,PlatformioArduinoCore
-        ,PlatformioArduinoLibs
-        ,PlatformioArduinoSTD
-]
+           "lib"
+           ,PlatformioAutogen
+           ,PlatformioAutogenLibs
+           ,PlatformioArduinoCore
+           ,PlatformioArduinoLibs
+           ,PlatformioArduinoSTD
+           ,PlatformioArduinoVariants
+           ]
 
 flags = [
     # General flags
-     '-std=c++11'
-    ,'-O1'
-    ,'-Werror'
-    ,'-Weverything'
-    ,'-Wno-documentation'
-    ,'-Wno-deprecated-declarations'
-    ,'-Wno-disabled-macro-expansion'
-    ,'-Wno-float-equal'
-    ,'-Wno-c++98-compat'
-    ,'-Wno-c++98-compat-pedantic'
-    ,'-Wno-global-constructors'
-    ,'-Wno-exit-time-destructors'
-    ,'-Wno-missing-prototypes'
-    ,'-Wno-padded'
-    ,'-Wno-old-style-cast'
-    ,'-Wno-weak-vtables'
-    ,'-x'
-    ,'c++'
+    '-Wall',
+    '-Wextra',
+    '-Werror',
+    '-Wno-long-long',
+    '-Wno-variadic-macros',
+    '-fexceptions',
+    '-DNDEBUG',
+    '-x',
+    'c++',
+    '-std=gnu++11',
 
     # Customize microcontroler and Arduino version
-    ,'-mmcu=atmega2560'
-    ,'-DF_CPU=16000000L'
-    ,'-DARDUINO_ARCH_AVR'
-    ,'-DARDUINO_AVR_DUEMILANOVE'
-    ,'-DARDUINO=106000'
-    ,'-D__progmem__=used'
-    # ,'-MMD -DUSB_VID=null'
-    # ,'-DUSB_PID=null'
+    '-mmcu=atmega328p',
+    '-DF_CPU=16000000L',
+    '-DARDUINO_ARCH_AVR',
+    '-DARDUINO_AVR_DUEMILANOVE',
+    '-DARDUINO=106000'
 ]
+
+
 compilation_database_folder = ''
 
 if os.path.exists( compilation_database_folder ):
@@ -110,10 +106,9 @@ def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
 
         # dir is relative to `working_directory`
         if not libDir.startswith('/'):
-            libDir = os.path.join(working_directory, libDir)
+            libDir = os.path.join(working_directory,libDir)
 
         # Else, assume dir is absolute
-
         for path, dirs, files in os.walk(libDir):
             # Add to flags if dir contains a header file and is not
             # one of the metadata dirs (examples and extras).
@@ -143,6 +138,8 @@ def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
 
         if new_flag:
             new_flags.append( new_flag )
+
+        pp(new_flags)
     return new_flags
 
 
