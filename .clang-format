@@ -1,0 +1,18 @@
+---
+BasedOnStyle: LLVM
+---
+Language: Cpp
+BreakBeforeBraces: Stroustrup
+DerivePointerAlignment: false
+PointerAlignment: Left
+IndentWidth: 4
+# ---
+# Language: C
+# IndentWidth: 8
+# UseTab: Always
+# BreakBeforeBraces: Linux
+# AllowShortIfStatementsOnASingleLine: false
+# IndentCaseLabels: false
+---
+Language: Proto
+DisableFormat: true

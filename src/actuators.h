@@ -17,24 +17,24 @@ void switch_co2(bool on);
 bool lights_automatic();
 void lights_behaviour(bool automatic);
 void switch_lights(bool on[]);
-bool *phases_on(); // Return an array of bool values
+bool* phases_on(); // Return an array of bool values
 
 // Clases y apoyo
 class Rele {
-public:
-  Rele(byte _pin);
-  Rele();
+  public:
+    Rele(byte _pin);
+    Rele();
 
-  void set_pin(byte _pin);
-  void toggle();
-  void on();
-  void off();
-  bool is_on() const;
-  bool is_off() const;
+    void set_pin(byte _pin);
+    void toggle();
+    void on();
+    void off();
+    bool is_on() const;
+    bool is_off() const;
 
-private:
-  byte pin;
-  byte value;
+  private:
+    byte pin;
+    byte value;
 };
 
 extern Rele fan;

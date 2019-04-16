@@ -10,11 +10,11 @@ extern bool lights_automatic;
 
 extern int tds_address;
 
-//extern struct PHCalibrationValue ph_calibration;
+// extern struct PHCalibrationValue ph_calibration;
 
 void update_eeprom();
 bool load_from_eeprom();
 
 void setup();
 
-}
+} // namespace config
