@@ -10,7 +10,6 @@ Anthony Ford <github.com/ajford>
 import os
 import ycm_core
 import logging
-from pprint import pprint as pp
 
 # Logger for additional logging.
 # To enable debug logging, add `let g:ycm_server_log_level = 'debug'` to
@@ -21,8 +20,8 @@ logger = logging.getLogger('ycm-extra-conf')
 ## Platformio automatically copies over the libs you use after your first run.
 ## Be warned that you will not receive autocompletion on libraries until after
 ## your first `platformio run`.
-PlatformioAutogen = ".pioenvs/"
-PlatformioAutogenLibs = ".piolibdeps/"
+#PlatformioAutogen = ".pioenvs/"
+PlatformioAutogen = ".pio/libdeps/megaatmega2560"
 
 # All Platformio Arduin Libs
 ## This will link directly to the Platformio Libs for Arduino.
@@ -41,40 +40,32 @@ PlatformioArduinoCore = "~/.platformio/packages/framework-arduinoavr/cores/ardui
 ## Arduino Std libs from .platformio packages. Provides stdlib.h and such.
 PlatformioArduinoSTD = '~/.platformio/packages/toolchain-atmelavr/avr/include'
 
-PlatformioArduinoVariants = '~/.platformio/packages/framework-arduinoavr/variants/standard/'
-
 # This is the list of all directories to search for header files.
 # Dirs in this list can be paths relative to this file, absolute
 # paths, or paths relative to the user (using ~/path/to/file).
 libDirs = [
            "lib"
            ,PlatformioAutogen
-           ,PlatformioAutogenLibs
            ,PlatformioArduinoCore
            ,PlatformioArduinoLibs
            ,PlatformioArduinoSTD
-           ,PlatformioArduinoVariants
            ]
 
 flags = [
     # General flags
-    '-Wall',
-    '-Wextra',
-    '-Werror',
-    '-Wno-long-long',
-    '-Wno-variadic-macros',
-    '-fexceptions',
-    '-DNDEBUG',
-    '-x',
-    'c++',
-    '-std=gnu++11',
+    '-Wall'
+    ,'-x'
+    ,'c++'
+    ,'-ansi'
 
     # Customize microcontroler and Arduino version
-    '-mmcu=atmega328p',
-    '-DF_CPU=16000000L',
-    '-DARDUINO_ARCH_AVR',
-    '-DARDUINO_AVR_DUEMILANOVE',
-    '-DARDUINO=106000'
+    ,'-mmcu=atmega328p'
+    ,'-DF_CPU=16000000L'
+    ,'-DARDUINO_ARCH_AVR'
+    ,'-DARDUINO_AVR_DUEMILANOVE'
+    ,'-DARDUINO=106000'
+    # ,'-MMD -DUSB_VID=null'
+    # ,'-DUSB_PID=null'
 ]
 
 
@@ -109,6 +100,7 @@ def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
             libDir = os.path.join(working_directory,libDir)
 
         # Else, assume dir is absolute
+
         for path, dirs, files in os.walk(libDir):
             # Add to flags if dir contains a header file and is not
             # one of the metadata dirs (examples and extras).
@@ -138,8 +130,6 @@ def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
 
         if new_flag:
             new_flags.append( new_flag )
-
-        pp(new_flags)
     return new_flags
 
 

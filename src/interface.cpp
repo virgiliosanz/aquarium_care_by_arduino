@@ -466,9 +466,19 @@ void CheckEdit::ok()
 
         current_phase++;
         if (current_phase == defaults::n_phases) {
-            checking_ = Checking::TDS;
+            checking_ = Checking::AllPhases;
         }
 
+        break;
+
+
+    case (Checking::AllPhases):
+        encendidas = actuators::phases_on();
+        for (byte i = 0; i < defaults::n_phases; i++) {
+            encendidas[i] = true;
+        }
+        actuators::switch_lights(encendidas);
+        checking_ = Checking::TDS;
         break;
 
     case (Checking::TDS):
@@ -493,6 +503,10 @@ void CheckEdit::update_screen()
     case (Checking::Phase):
         interface_->to_lcd("Phase", 16 + 4, 5);
         interface_->to_lcd(current_phase + 1, 16 + 10, -3);
+        break;
+
+    case (Checking::AllPhases):
+        interface_->to_lcd("All Phases", 16 + 4, 5);
         break;
 
     case (Checking::TDS):

@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include <ClickEncoder.h>
 #include <TimeLib.h>
-#include <defaults.h>
+#include "defaults.h"
 #include <stdint.h>
 
 namespace interface {
@@ -151,6 +151,7 @@ class CheckEdit : public Screen {
   private:
     enum class Checking {
         Phase,
+        AllPhases,
         TDS,
         Temperatures,
     } checking_;

@@ -70,7 +70,7 @@ void loop()
 
     check_temperature();
 
-    // btn_filter.tick();
+    // BTN_FILTER.tick();
     // btn_pump.tick();
 
     warning = (warning || (filter.is_off() || heater.is_off())) ? HIGH : LOW;
