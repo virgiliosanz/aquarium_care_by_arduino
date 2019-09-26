@@ -126,12 +126,13 @@ static const defaults::PhotoPeriod* find_current_period()
 
 static void switch_lights()
 {
-    // Ensure to signaling only when the status change
+    // 1. Check how many phases should be on
+    // 2. Look for n random phases
+    // 3. Switch the new phases
 
-    // Search for current Period
     const defaults::PhotoPeriod* current_period = find_current_period();
-
     bool lights_to_switch[defaults::n_phases] = {false};
+
     if (NULL != current_period) {
         // Check if we have the number of lights needed
         if (current_period->phases_on == n_lights_on) {

@@ -66,17 +66,13 @@ const unsigned long max_inactive_millis = 60000;
 const byte n_periods = 11;
 const PhotoPeriod photo_periods[] = {
     // Each photoperiod define an interval and a number of phases on
-    {{{8, 0}, {11, 0}}, 1},  // Photoperiodo 1
-    {{{11, 1}, {12, 0}}, 2}, // Photoperiodo 2
-    {{{12, 1}, {13, 0}}, 4}, // Photoperiodo 3
-    {{{13, 1}, {14, 0}}, 5}, // Photoperiodo 4
-    {{{14, 1}, {15, 0}}, 7}, // Photoperiodo 5
-    {{{15, 1}, {16, 0}}, 8}, // Photoperiodo 6
-    {{{16, 1}, {17, 0}}, 7}, // Photoperiodo 7
-    {{{17, 1}, {18, 0}}, 5}, // Photoperiodo 8
-    {{{18, 1}, {19, 0}}, 4}, // Photoperiodo 9
-    {{{19, 1}, {21, 0}}, 2}, // Photoperiodo 10
-    {{{21, 1}, {22, 30}}, 1} // Photoperiodo 11
+    {{{8, 0}, {11, 0}}, 1},
+    {{{11, 1}, {12, 0}}, 3},
+    {{{12, 1}, {13, 0}}, 5},
+    {{{13, 1}, {18, 0}}, 8},
+    {{{18, 1}, {19, 0}}, 5},
+    {{{19, 1}, {21, 0}}, 3},
+    {{{21, 1}, {22, 00}}, 1}
 };
 
 const Period co2_period = {{7, 0}, {14, 0}};
