@@ -63,7 +63,6 @@ const byte screen_size = screen_cols * screen_rows;
 const unsigned long max_inactive_millis = 60000;
 
 // Photoperiods
-const byte n_periods = 11;
 const PhotoPeriod photo_periods[] = {
     // Each photoperiod define an interval and a number of phases on
     {{{8, 0}, {11, 0}}, 1},
@@ -72,7 +71,8 @@ const PhotoPeriod photo_periods[] = {
     {{{13, 1}, {18, 0}}, 8},
     {{{18, 1}, {19, 0}}, 5},
     {{{19, 1}, {21, 0}}, 3},
-    {{{21, 1}, {22, 00}}, 1}
+    {{{21, 1}, {22, 00}}, 1},
+    {{{0, 0}, {0, 0}}, 0}
 };
 
 const Period co2_period = {{7, 0}, {14, 0}};

@@ -32,7 +32,6 @@ Interface* Screen::interface_ = &interface;
 
 INTERFACE(setup)
 INTERFACE(loop)
-
 INTERFACE(ok)
 INTERFACE(left)
 INTERFACE(right)

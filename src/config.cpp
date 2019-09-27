@@ -91,32 +91,7 @@ void check_i2c()
 
     p(F("i2c scanning: %d devices found!"), n_devices);
 }
-
-
-void printDigits(int digits)
-{
-    // utility function for digital clock display: prints preceding colon and leading 0
-    Serial.print(':');
-    if(digits < 10)
-        Serial.print('0');
-    Serial.print(digits);
-}
-
-void digitalClockDisplay()
-{
-    // digital clock display of the time
-    Serial.print(hour());
-    printDigits(minute());
-    printDigits(second());
-    Serial.print(' ');
-    Serial.print(day());
-    Serial.print(' ');
-    Serial.print(month());
-    Serial.print(' ');
-    Serial.print(year());
-    Serial.println();
-}
-
+ 
 void setup()
 {
     Serial.begin(defaults::serial_baud);
@@ -128,15 +103,14 @@ void setup()
     if (timeStatus() != timeSet) {
         p(F("Unable to sync with the RTC"));
     } else {
-        //setTime(19, 47, 0, 23, 4, 2019);
-        Serial.print(F("Current time: "));
-        digitalClockDisplay();
+        p(F("Current Time: %02d/%02d/%04d  %02d:%02d,%02d"), 
+            day(), month(), year(), 
+            hour(), minute(), second());
     }
 
     p(F("Loading setup, ver: %s"), version);
 
     p(F("Loading from EEPROM"));
-
     if (!load_from_eeprom()) {
         p(F("No data in EEPROM - saving defaults"));
         load_defaults();

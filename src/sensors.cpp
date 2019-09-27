@@ -38,6 +38,10 @@ void setup()
         p(F("Unable to find address for Device 1"));
         sensors_data.ds18b20.sensor_ok = false;
     }
+
+    if (!sensors_data.ds18b20.sensor_ok) {
+        p(F("Error finding Thermometer: %d"), sensors_data.ds18b20.sensor_ok);
+    }
     sensors_data.ds18b20.time_between_reads =
         defaults::ds18b20_conf.time_between_reads;
 
@@ -75,8 +79,9 @@ void loop()
         sensors_data.ds18b20.internal =
             sensors.getTempCByIndex(insideThermometer_id);
 
-        p(F("ds18b20 (temperature) %d %d"), (int)sensors_data.ds18b20.internal,
-          (int)sensors_data.ds18b20.external);
+        p(F("ds18b20 (temperature) %d %d"), 
+            (int)sensors_data.ds18b20.internal,
+            (int)sensors_data.ds18b20.external);
     }
 
     // TDS

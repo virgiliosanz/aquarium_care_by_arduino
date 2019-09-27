@@ -84,7 +84,7 @@ void check_temperature()
     if (data.ds18b20.internal >= config::high_temperature_alarm) { // TOO WARM
         warning = HIGH;
 
-        // p(F("Water is too WARM!!"));
+        p(F("Water is too WARM!! - %02d C"), data.ds18b20.internal);
         // fan.on();
         // air_pump.on();
     }
@@ -110,18 +110,17 @@ bool lights_automatic() { return lights_are_automatic; }
 
 static const defaults::PhotoPeriod* find_current_period()
 {
-    const defaults::PhotoPeriod* period = NULL;
-
     defaults::HourMinute now = {(byte)hour(), (byte)minute()};
 
-    for (int8_t i = 0; i < defaults::n_periods; i++) {
-        if (defaults::photo_periods[i].period.in_period(now)) {
-            period = &defaults::photo_periods[i];
-            break;
+    const defaults::PhotoPeriod* photo_period = defaults::photo_periods;
+    while (photo_period->phases_on != 0) {
+        if (photo_period->period.in_period(now)) {
+            return photo_period;
         }
+        photo_period ++;
     }
 
-    return period;
+    return NULL;
 }
 
 static void switch_lights()
@@ -191,7 +190,6 @@ void switch_lights(bool on[])
         }
     }
 
-    // p(F("%d Luces encendidas: %s"), n_lights_on, lights_on);
     p(F("%d Luces encendidas: %s"), n_lights_on, c_lights_on);
 }
 
