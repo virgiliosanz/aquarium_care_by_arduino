@@ -15,13 +15,14 @@ static bool co2_is_automatic;
 static bool lights_are_automatic;
 
 static bool lights_on[defaults::n_phases];
-static byte n_lights_on = 0;
+static byte n_phases_on = 0;
 
 // Rele fan{defaults::pines.fan};
 Rele filter{defaults::pines.filter};
 Rele heater{defaults::pines.heater};
 Rele pump{defaults::pines.pump};
 Rele co2{defaults::pines.co2};
+
 Rele phases[defaults::n_phases];
 
 static void switch_lights();
@@ -131,10 +132,9 @@ static void switch_lights()
 
     const defaults::PhotoPeriod* current_period = find_current_period();
     bool lights_to_switch[defaults::n_phases] = {false};
-
     if (NULL != current_period) {
         // Check if we have the number of lights needed
-        if (current_period->phases_on == n_lights_on) {
+        if (current_period->phases_on == n_phases_on) {
             return;
         }
 
@@ -160,7 +160,7 @@ static void switch_lights()
     }
     else {
         // If no current lights return
-        if (0 == n_lights_on) {
+        if (0 == n_phases_on) {
             return;
         }
         else {
@@ -174,11 +174,11 @@ void switch_lights(bool on[])
 {
     char c_lights_on[defaults::n_phases + 1] = {0};
 
-    n_lights_on = 0;
+    n_phases_on = 0;
     for (byte i = 0; i < defaults::n_phases; i++) {
         lights_on[i] = on[i];
         if (on[i]) {
-            n_lights_on++;
+            n_phases_on++;
             c_lights_on[i] = '*';
             if (phases[i].is_off())
                 phases[i].on();
@@ -190,7 +190,7 @@ void switch_lights(bool on[])
         }
     }
 
-    p(F("%d Luces encendidas: %s"), n_lights_on, c_lights_on);
+    p(F("%d Luces encendidas: %s"), n_phases_on, c_lights_on);
 }
 
 bool* phases_on() { return lights_on; }

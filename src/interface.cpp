@@ -24,11 +24,11 @@ static LiquidCrystal_I2C lcd(defaults::lcd_addr, defaults::screen_cols,
                              defaults::screen_rows);
 
 // Initializing interface object
-static Interface interface{};
-Interface* Screen::interface_ = &interface;
+static Interface interface {};
+Interface *Screen::interface_ = &interface;
 
 #define INTERFACE(method)                                                      \
-    void method() { interface.method(); }
+    	void method() { interface.method(); }
 
 INTERFACE(setup)
 INTERFACE(loop)
@@ -41,8 +41,7 @@ INTERFACE(right)
 /* Interface Implementation */
 Interface::Interface()
     : encoder_(defaults::pines.encoder_dt, defaults::pines.encoder_clk,
-               defaults::pines.encoder_sw)
-{
+               defaults::pines.encoder_sw) {
     at_lcd_[defaults::screen_size] = {' '};
     to_lcd_[defaults::screen_size] = {' '};
     last_activity_millis_ = 0;
@@ -50,10 +49,11 @@ Interface::Interface()
     current_ = nullptr;
 }
 
-void timerIsr() { interface.encoder_.service(); }
+void timerIsr() {
+    interface.encoder_.service();
+}
 
-void Interface::setup()
-{
+void Interface::setup() {
     last_activity_millis_ = millis();
 
     lcd.init();
@@ -68,28 +68,28 @@ void Interface::setup()
     Timer1.attachInterrupt(timerIsr);
 }
 
-void Interface::loop()
-{
+void Interface::loop() {
 
     int16_t val = encoder_.getValue();
+
     if (val > 0) {
         right();
-    }
-    else if (val < 0) {
+    } else if (val < 0) {
         left();
     }
 
     ClickEncoder::Button b = encoder_.getButton();
-    if (b == ClickEncoder::Clicked)
+
+    if (b == ClickEncoder::Clicked) {
         ok();
+    }
 
     // If inactive switch off the screen
     if (lcd_is_on_) {
         if (inactive_timeout()) {
             lcd.noBacklight();
             lcd_is_on_ = false;
-        }
-        else {
+        } else {
             current_->update_screen();
             update_lcd();
         }
@@ -97,15 +97,15 @@ void Interface::loop()
 }
 
 #define INTERFAZ_ACTION(method)                                                \
-    void Interface::method()                                                   \
-    {                                                                          \
-        if (!lcd_is_on_) {                                                     \
-            lcd_is_on_ = true;                                                 \
-            lcd.backlight();                                                   \
-        }                                                                      \
-        last_activity_millis_ = millis();                                      \
-        current_->method();                                                    \
-    }
+    	void Interface::method()                                                   \
+    	{                                                                          \
+        	if (!lcd_is_on_) {                                                     \
+            		lcd_is_on_ = true;                                                 \
+            		lcd.backlight();                                                   \
+        	}                                                                      \
+        	last_activity_millis_ = millis();                                      \
+        	current_->method();                                                    \
+    	}
 
 INTERFAZ_ACTION(ok)
 INTERFAZ_ACTION(left)
@@ -113,19 +113,19 @@ INTERFAZ_ACTION(right)
 
 #undef INTERFAZ_ACTION
 
-void Interface::move_to_screen(Screen* s)
-{
+void Interface::move_to_screen(Screen *s) {
     current_->leave();
     current_ = s;
     current_->enter();
 }
 
-void Interface::update_lcd()
-{
+void Interface::update_lcd() {
     byte r, c, i;
+
     for (c = 0; c < defaults::screen_cols; c++) {
         for (r = 0; r < defaults::screen_rows; r++) {
             i = (r * defaults::screen_cols) + c;
+
             if (to_lcd_[i] != at_lcd_[i]) {
                 lcd.setCursor(c, r);
                 lcd.print(to_lcd_[i]);
@@ -135,28 +135,29 @@ void Interface::update_lcd()
     }
 }
 
-void Interface::to_lcd(const __FlashStringHelper* tpl)
-{
+void Interface::to_lcd(const __FlashStringHelper *tpl) {
     PGM_P p = reinterpret_cast<PGM_P>(tpl);
     size_t i = 0;
+
     while (1) {
         unsigned char c = pgm_read_byte(p++);
-        if (c == 0)
+
+        if (c == 0) {
             break;
+        }
+
         to_lcd_[i] = (char)c;
         i++;
     }
 }
 
-void Interface::to_lcd(const char* tpl)
-{
+void Interface::to_lcd(const char *tpl) {
     strncpy(to_lcd_, tpl, defaults::screen_size);
 }
 
 /* width is signed value, negative for left adjustment.  */
 void Interface::to_lcd(const float d, const byte position_at_lcd,
-                       const int8_t room_width, const byte precission)
-{
+                       const int8_t room_width, const byte precission) {
     char a[defaults::screen_cols + 1];
     dtostrf((double)d, room_width, precission, a);
     to_lcd(a, position_at_lcd, room_width);
@@ -164,20 +165,18 @@ void Interface::to_lcd(const float d, const byte position_at_lcd,
 
 /* If room_width < 0 align right */
 void Interface::to_lcd(const int i, const byte position_at_lcd,
-                       const int8_t room_width)
-{
+                       const int8_t room_width) {
     char a[defaults::screen_cols + 1];
     itoa(i, a, 10);
     to_lcd(a, position_at_lcd, room_width, '0');
 }
 
 /* If room_width < 0 align right */
-void Interface::to_lcd(const char* src, const byte position_at_lcd,
-                       const int8_t room_width, char fill_with)
-{
+void Interface::to_lcd(const char *src, const byte position_at_lcd,
+                       const int8_t room_width, char fill_with) {
     byte len_s = (byte)strlen(src);
     byte width = (byte)abs(room_width);
-    char* dest = &to_lcd_[position_at_lcd];
+    char *dest = &to_lcd_[position_at_lcd];
     byte i;
 
     // align right
@@ -186,19 +185,20 @@ void Interface::to_lcd(const char* src, const byte position_at_lcd,
             *dest = fill_with;
             dest++;
         }
+
         while (i < width) {
             *dest = *src;
             dest++;
             src++;
             i++;
         }
-    }
-    else { // algn left
+    } else { // algn left
         for (i = 0; i < len_s; i++) {
             *dest = *src;
             dest++;
             src++;
         }
+
         while (i < width) {
             *dest = fill_with;
             dest++;
@@ -207,38 +207,39 @@ void Interface::to_lcd(const char* src, const byte position_at_lcd,
     }
 }
 
-void Interface::cursor_at(byte c, byte r)
-{
+void Interface::cursor_at(byte c, byte r) {
     lcd.cursor_on();
     lcd.setCursor(c, r);
     lcd.blink_on();
 }
 
-void Interface::cursor_off()
-{
+void Interface::cursor_off() {
     lcd.blink_off();
     lcd.cursor_off();
 }
 
-bool Interface::inactive_timeout()
-{
+bool Interface::inactive_timeout() {
     return (millis() > (last_activity_millis_ + defaults::max_inactive_millis));
 }
 
 // -----------------------------------------------------------------
 /* ConcreteStates (Screens) implementation */
-Home* Home::instance()
-{
+Home *Home::instance() {
     static Home screen;
     return &screen;
 }
 
-void Home::left() { interface_->move_to_screen(WaterChange::instance()); }
-void Home::right() { interface_->move_to_screen(Info::instance()); }
-void Home::ok() { interface_->move_to_screen(HomeEdit::instance()); }
+void Home::left() {
+    interface_->move_to_screen(WaterChange::instance());
+}
+void Home::right() {
+    interface_->move_to_screen(Info::instance());
+}
+void Home::ok() {
+    interface_->move_to_screen(HomeEdit::instance());
+}
 
-void Home::update_screen()
-{
+void Home::update_screen() {
     //                    0123456789012345
     interface_->to_lcd(F("ddd,dd/mmm HH:MM"
                          "01234567  234 25"));
@@ -250,14 +251,16 @@ void Home::update_screen()
     interface_->to_lcd(tm.Hour, 11, -2);
     interface_->to_lcd(tm.Minute, 14, -2);
 
-    bool* phases_on = actuators::phases_on();
+    bool *phases_on = actuators::phases_on();
     char lights[] = "12345678";
 
     // Set off light phases
     for (int i = 0; i < defaults::n_phases; i++) {
-        if (!phases_on[i])
+        if (!phases_on[i]) {
             lights[i] = '*';
+        }
     }
+
     interface_->to_lcd(lights, 16, defaults::n_phases);
 
     sensors::SensorsData data = sensors::get_sensors_data();
@@ -265,50 +268,42 @@ void Home::update_screen()
     interface_->to_lcd((int)data.ds18b20.internal, 16 + 14, -2);
 }
 
-HomeEdit* HomeEdit::instance()
-{
+HomeEdit *HomeEdit::instance() {
     static HomeEdit screen;
     return &screen;
 }
 
-void HomeEdit::edit_day()
-{
+void HomeEdit::edit_day() {
     editing_ = Editing::Day;
     interface_->cursor_at(2, 0);
 }
 
-void HomeEdit::edit_month()
-{
+void HomeEdit::edit_month() {
     editing_ = Editing::Month;
     interface_->cursor_at(5, 0);
 }
 
-void HomeEdit::edit_year()
-{
+void HomeEdit::edit_year() {
     editing_ = Editing::Year;
     interface_->cursor_at(9, 0);
 }
 
-void HomeEdit::edit_hour()
-{
+void HomeEdit::edit_hour() {
     editing_ = Editing::Hour;
     interface_->cursor_at(5, 1);
 }
 
-void HomeEdit::edit_minute()
-{
+void HomeEdit::edit_minute() {
     editing_ = Editing::Minute;
     interface_->cursor_at(8, 1);
 }
 
-void HomeEdit::enter()
-{
+void HomeEdit::enter() {
     RTC.read(tm_);
     edit_day();
 }
 
-void HomeEdit::leave()
-{
+void HomeEdit::leave() {
     if (!RTC.write(tm_)) {
         p(F("Time set ERROR!"));
         interface_->to_lcd(F("Time set ERROR!"));
@@ -317,71 +312,79 @@ void HomeEdit::leave()
     interface_->cursor_off();
 }
 
-void HomeEdit::right()
-{
+void HomeEdit::right() {
     switch (editing_) {
     case (Editing::Day):
         tm_.Day = tm_.Day == 31 ? 1 : tm_.Day + 1;
         break;
+
     case (Editing::Month):
         tm_.Month = tm_.Month == 12 ? 1 : tm_.Month + 1;
         break;
+
     case (Editing::Year):
         tm_.Year = tm_.Year == 255 ? 0 : tm_.Year + 1;
         break;
+
     case (Editing::Hour):
         tm_.Hour = tm_.Hour == 23 ? 0 : tm_.Hour + 1;
         break;
+
     case (Editing::Minute):
         tm_.Minute = tm_.Minute == 59 ? 0 : tm_.Minute + 1;
         break;
     }
 }
 
-void HomeEdit::left()
-{
+void HomeEdit::left() {
     switch (editing_) {
     case (Editing::Day):
         tm_.Day = tm_.Day == 1 ? 31 : tm_.Day - 1;
         break;
+
     case (Editing::Month):
         tm_.Month = tm_.Month == 1 ? 12 : tm_.Month - 1;
         break;
+
     case (Editing::Year):
         tm_.Year = tm_.Year == 0 ? 255 : tm_.Year - 1;
         break;
+
     case (Editing::Hour):
         tm_.Hour = tm_.Hour == 0 ? 23 : tm_.Hour - 1;
         break;
+
     case (Editing::Minute):
         tm_.Minute = tm_.Minute == 0 ? 59 : tm_.Minute - 1;
         break;
     }
 }
 
-void HomeEdit::ok()
-{
+void HomeEdit::ok() {
     switch (editing_) {
     case (Editing::Day):
         edit_month();
         break;
+
     case (Editing::Month):
         edit_year();
         break;
+
     case (Editing::Year):
         edit_hour();
         break;
+
     case (Editing::Hour):
         edit_minute();
         break;
+
     case (Editing::Minute):
         interface_->move_to_screen(Home::instance());
         break;
     }
 }
 
-void HomeEdit::update_screen()
-{
+void HomeEdit::update_screen() {
     //                    0123456789012345
     interface_->to_lcd(F("  01/Feb/1972   "
                          "     15:20      "));
@@ -393,17 +396,19 @@ void HomeEdit::update_screen()
 }
 
 // -----------------------------------------------------------------
-Info* Info::instance()
-{
+Info *Info::instance() {
     static Info screen;
     return &screen;
 }
 
-void Info::left() { interface_->move_to_screen(Home::instance()); }
-void Info::right() { interface_->move_to_screen(Check::instance()); }
+void Info::left() {
+    interface_->move_to_screen(Home::instance());
+}
+void Info::right() {
+    interface_->move_to_screen(Check::instance());
+}
 
-void Info::update_screen()
-{
+void Info::update_screen() {
     sensors::SensorsData data = sensors::get_sensors_data();
 
     //                    0123456789012345
@@ -420,50 +425,57 @@ void Info::update_screen()
 
 // ----------------------------------------------------------------
 
-Check* Check::instance()
-{
+Check *Check::instance() {
     static Check screen;
     return &screen;
 }
 
-void Check::left() { interface_->move_to_screen(Info::instance()); }
-void Check::right() { interface_->move_to_screen(WaterChange::instance()); }
-void Check::ok() { interface_->move_to_screen(CheckEdit::instance()); }
-void Check::update_screen()
-{
+void Check::left() {
+    interface_->move_to_screen(Info::instance());
+}
+void Check::right() {
+    interface_->move_to_screen(WaterChange::instance());
+}
+void Check::ok() {
+    interface_->move_to_screen(CheckEdit::instance());
+}
+void Check::update_screen() {
     //                    0123456789012345
     interface_->to_lcd(F(" Click to Check "
                          "      System    "));
 }
 
-CheckEdit* CheckEdit::instance()
-{
+CheckEdit *CheckEdit::instance() {
     static CheckEdit screen;
     return &screen;
 }
 
-void CheckEdit::enter()
-{
+void CheckEdit::enter() {
     checking_ = Checking::Phase;
     current_phase = 0;
     actuators::lights_behaviour(false);
 }
 
-void CheckEdit::leave() { actuators::lights_behaviour(true); }
+void CheckEdit::leave() {
+    actuators::lights_behaviour(true);
+}
 
-void CheckEdit::ok()
-{
-    bool* encendidas;
+void CheckEdit::ok() {
+    bool *encendidas;
+
     switch (checking_) {
     case (Checking::Phase):
 
         encendidas = actuators::phases_on();
+
         for (byte i = 0; i < defaults::n_phases; i++) {
             encendidas[i] = (i == current_phase) ? true : false;
         }
+
         actuators::switch_lights(encendidas);
 
         current_phase++;
+
         if (current_phase == defaults::n_phases) {
             checking_ = Checking::AllPhases;
         }
@@ -473,9 +485,11 @@ void CheckEdit::ok()
 
     case (Checking::AllPhases):
         encendidas = actuators::phases_on();
+
         for (byte i = 0; i < defaults::n_phases; i++) {
             encendidas[i] = true;
         }
+
         actuators::switch_lights(encendidas);
         checking_ = Checking::TDS;
         break;
@@ -490,11 +504,10 @@ void CheckEdit::ok()
     }
 }
 
-void CheckEdit::update_screen()
-{
+void CheckEdit::update_screen() {
     //                    0123456789012345
     interface_->to_lcd(F("    Checking    "
-                         "            	  "));
+                         "		  "));
 
     sensors::SensorsData sdata = sensors::get_sensors_data();
 
@@ -524,46 +537,43 @@ void CheckEdit::update_screen()
 }
 
 // Water Change
-WaterChange* WaterChange::instance()
-{
+WaterChange *WaterChange::instance() {
     static WaterChange screen;
     return &screen;
 }
 
-void WaterChange::ok()
-{
+void WaterChange::ok() {
     interface_->move_to_screen(WaterChangeEdit::instance());
 }
-void WaterChange::left() { interface_->move_to_screen(Check::instance()); }
-void WaterChange::right() { interface_->move_to_screen(Home::instance()); }
-void WaterChange::update_screen()
-{
+void WaterChange::left() {
+    interface_->move_to_screen(Check::instance());
+}
+void WaterChange::right() {
+    interface_->move_to_screen(Home::instance());
+}
+void WaterChange::update_screen() {
     //                    0123456789012345
     interface_->to_lcd(F("  Water Change  "
                          " Click to start "));
 }
 
-WaterChangeEdit* WaterChangeEdit::instance()
-{
+WaterChangeEdit *WaterChangeEdit::instance() {
     static WaterChangeEdit screen;
     return &screen;
 }
 
 // Left or right back move to WaterChange main screen
-void WaterChangeEdit::left()
-{
+void WaterChangeEdit::left() {
     p(F("WaterChangeEdit:left()"));
     interface_->move_to_screen(WaterChange::instance());
 }
-void WaterChangeEdit::right()
-{
+void WaterChangeEdit::right() {
     p(F("WaterChangeEdit:right()"));
     interface_->move_to_screen(WaterChange::instance());
 }
 
 // When entering: stop filter, heater & CO2
-void WaterChangeEdit::enter()
-{
+void WaterChangeEdit::enter() {
     p(F("Entering WaterEChangEdit"));
     pump_ = false;
     actuators::switch_filter_and_heater();
@@ -572,11 +582,11 @@ void WaterChangeEdit::enter()
 }
 
 // When leaving: stop pupm, start filter, heater and CO2
-void WaterChangeEdit::leave()
-{
+void WaterChangeEdit::leave() {
     p(F("Leaving WaterChangeEdit"));
     actuators::switch_filter_and_heater();
     actuators::co2_behaviour(true);
+
     if (pump_) {
         actuators::switch_pump();
         pump_ = false;
@@ -584,21 +594,18 @@ void WaterChangeEdit::leave()
 }
 
 // Click -> water change switch
-void WaterChangeEdit::ok()
-{
+void WaterChangeEdit::ok() {
     p(F("WaterChangeEdit:ok()"));
     pump_ = !pump_;
     actuators::switch_pump();
 }
 
-void WaterChangeEdit::update_screen()
-{
+void WaterChangeEdit::update_screen() {
     //                       0123456789012345
     if (pump_) {
         interface_->to_lcd(F("Pump:  ON       "
                              "Right to go back"));
-    }
-    else {
+    } else {
         interface_->to_lcd(F("Pump:  OFF      "
                              "Left to go back "));
     }
